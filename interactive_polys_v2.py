@@ -1,6 +1,4 @@
 import streamlit as st
-import numpy as np
-import time
 import plotly.graph_objects as go
 from weyl_groups import *
 from helper import *
