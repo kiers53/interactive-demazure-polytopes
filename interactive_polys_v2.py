@@ -106,14 +106,24 @@ def pretty(lamlist):
     return string
 
 
+## PUT THE PICTURE AT THE TOP
+
+pic_here = st.container()
+
 
 ## CHOOSE A LIE TYPE FROM DROPDOWN MENU
 
-st.sidebar.write("Lie Type")
+
+
+
+
+#st.sidebar.write("Lie Type")
+st.write("Lie Type")
 
 #def_type = np.random.randint(0,11)
 
-lie_type = st.sidebar.selectbox(label="",
+#lie_type = st.sidebar.selectbox(label="",
+lie_type = st.selectbox(label="",
                       options=['A1','A2','A3','B2','B3','C3','G2',
                                 'A1 x A2','A1 x B2','A1 x G2','A1 x A1','A1 x A1 x A1'],
                       #index=2,
@@ -128,15 +138,20 @@ LS = LieSys(lie_type)
 
 ## USE SLIDERS TO CONTROL THE HIGHEST WEIGHT
 
-header = st.sidebar.container() # holds the header, but gets updated later
 
-lam1 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l1")
+#header = st.sidebar.container() # holds the header, but gets updated later
+header = st.container()
+
+#lam1 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l1")
+lam1 = st.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l1")
 if LS.ran>1:
-    lam2 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l2")
+    #lam2 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l2")
+    lam2 = st.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l2")
 else:
     [lam2, lam3]=[0,0]
 if LS.ran>2:
-    lam3 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l3")
+    #lam3 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l3")
+    lam3 = st.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l3")
 else:
     lam3=0
 lam = Vector([lam1,lam2,lam3][:LS.ran])
@@ -149,10 +164,13 @@ header.write(pretty(lam.lst))
 ## USE THE TEXT ENTRY OR DROPDOWN TO INDICATE WEYL GROUP ELEMENT
 
 
-st.sidebar.write("Weyl group element")
-word = st.sidebar.text_input(label="",label_visibility="collapsed",key="wword",on_change=process,args=(LS,))
+#st.sidebar.write("Weyl group element")
+st.write("Weyl group element")
+#word = st.sidebar.text_input(label="",label_visibility="collapsed",key="wword",on_change=process,args=(LS,))
+word = st.text_input(label="",label_visibility="collapsed",key="wword",on_change=process,args=(LS,))
 
-thew = st.sidebar.selectbox(label="",
+#thew = st.sidebar.selectbox(label="",
+thew = st.selectbox(label="",
                             options=LS.wordlist,
                             index=st.session_state.wi,
                             label_visibility="collapsed",
@@ -164,9 +182,11 @@ w = LS.Wlist[thew]
 
 ## OPTIONALLY CHOOSE SOME COLORS
 
-st.sidebar.write("Colors")
+#st.sidebar.write("Colors")
+st.write("Colors")
 
-[column1, column2, column3] = st.sidebar.columns(3)
+#[column1, column2, column3] = st.sidebar.columns(3)
+[column1, column2, column3] = st.columns(3)
 
 col1 = column1.color_picker(label="",value='#C4C58E',label_visibility="collapsed")
 if LS.ran>2:
@@ -245,7 +265,7 @@ if len(ilist)>0:
 
     ## PLACE THE FIGURE
 
-    st.plotly_chart(fig, theme=None, use_container_width=True, equal_axes=True)
+    pic_here.plotly_chart(fig, theme=None, use_container_width=True, equal_axes=True)
 
 
 
@@ -257,8 +277,8 @@ if len(ilist)>0:
 
 
 
-
-st.sidebar.button("random",on_click=get_random)
+#st.sidebar.button("random",on_click=get_random)
+st.button("random",on_click=get_random)
 
 
 
