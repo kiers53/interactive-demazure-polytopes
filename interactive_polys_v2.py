@@ -45,7 +45,8 @@ def get_random():
     st.session_state.wword = concat(w.word)
     #st.session_state.wtext = thew
 
-
+#st.sidebar.button("random",on_click=get_random)
+st.button("Generate Random",on_click=get_random)
 
 def process_type():
     LS = LieSys(st.session_state.typ)
@@ -82,7 +83,7 @@ elif "wword" not in st.session_state or "wtext" not in st.session_state:
 ## DISPLAY HIGHEST WEIGHT IN NICE LATEX
 
 def pretty(lamlist):
-    string='Highest weight:  $\lambda = '
+    string='Highest weight:  \n$\lambda = '
     first = True
     i = 0
     N = len(lamlist)
@@ -114,16 +115,16 @@ pic_here = st.container()
 ## CHOOSE A LIE TYPE FROM DROPDOWN MENU
 
 
-
+[control1, control2, control3] = st.columns(3)
 
 
 #st.sidebar.write("Lie Type")
-st.write("Lie Type")
+control1.write("Lie Type")
 
 #def_type = np.random.randint(0,11)
 
 #lie_type = st.sidebar.selectbox(label="",
-lie_type = st.selectbox(label="",
+lie_type = control1.selectbox(label="",
                       options=['A1','A2','A3','B2','B3','C3','G2',
                                 'A1 x A2','A1 x B2','A1 x G2','A1 x A1','A1 x A1 x A1'],
                       #index=2,
@@ -136,41 +137,17 @@ LS = LieSys(lie_type)
 
 
 
-## USE SLIDERS TO CONTROL THE HIGHEST WEIGHT
-
-
-#header = st.sidebar.container() # holds the header, but gets updated later
-header = st.container()
-
-#lam1 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l1")
-lam1 = st.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l1")
-if LS.ran>1:
-    #lam2 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l2")
-    lam2 = st.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l2")
-else:
-    [lam2, lam3]=[0,0]
-if LS.ran>2:
-    #lam3 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l3")
-    lam3 = st.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l3")
-else:
-    lam3=0
-lam = Vector([lam1,lam2,lam3][:LS.ran])
-
-header.write(pretty(lam.lst))
-
-
-
 
 ## USE THE TEXT ENTRY OR DROPDOWN TO INDICATE WEYL GROUP ELEMENT
 
 
 #st.sidebar.write("Weyl group element")
-st.write("Weyl group element")
+control1.write("Weyl group element")
 #word = st.sidebar.text_input(label="",label_visibility="collapsed",key="wword",on_change=process,args=(LS,))
-word = st.text_input(label="",label_visibility="collapsed",key="wword",on_change=process,args=(LS,))
+word = control1.text_input(label="",label_visibility="collapsed",key="wword",on_change=process,args=(LS,))
 
 #thew = st.sidebar.selectbox(label="",
-thew = st.selectbox(label="",
+thew = control1.selectbox(label="",
                             options=LS.wordlist,
                             index=st.session_state.wi,
                             label_visibility="collapsed",
@@ -180,23 +157,55 @@ thew = st.selectbox(label="",
 
 w = LS.Wlist[thew]
 
+
+
+
+
+## USE SLIDERS TO CONTROL THE HIGHEST WEIGHT
+
+
+#header = st.sidebar.container() # holds the header, but gets updated later
+header = control2.container()
+
+#lam1 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l1")
+lam1 = control2.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l1")
+if LS.ran>1:
+    #lam2 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l2")
+    lam2 = control2.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l2")
+else:
+    [lam2, lam3]=[0,0]
+if LS.ran>2:
+    #lam3 = st.sidebar.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l3")
+    lam3 = control2.slider(label="",min_value=0,max_value=10,label_visibility = "collapsed",key="l3")
+else:
+    lam3=0
+lam = Vector([lam1,lam2,lam3][:LS.ran])
+
+header.write(pretty(lam.lst))
+
+
+
+
+
+
 ## OPTIONALLY CHOOSE SOME COLORS
 
 #st.sidebar.write("Colors")
-st.write("Colors")
+#st.write("Colors")
+with control3.expander("Colors"):
 
-#[column1, column2, column3] = st.sidebar.columns(3)
-[column1, column2, column3] = st.columns(3)
+    #[column1, column2, column3] = st.sidebar.columns(3)
+    #[column1, column2, column3] = st.columns(3)
 
-col1 = column1.color_picker(label="",value='#C4C58E',label_visibility="collapsed")
-if LS.ran>2:
-    col2 = column2.color_picker(label="",value='#BF3C6A',label_visibility="collapsed")
-else:
-    col2 = 'grey'
-if LS.ran>2:
-    col3 = column3.color_picker(label="",value='#00b4cc',label_visibility="collapsed")
-else:
-    col3 = 'grey'
+    col1 = st.color_picker(label="",value='#C4C58E',label_visibility="collapsed")
+    if LS.ran>2:
+        col2 = st.color_picker(label="",value='#BF3C6A',label_visibility="collapsed")
+    else:
+        col2 = 'grey'
+    if LS.ran>2:
+        col3 = st.color_picker(label="",value='#00b4cc',label_visibility="collapsed")
+    else:
+        col3 = 'grey'
 
 ## CREATE THE DemPoly OBJECT AND COMPUTE FACES
 
@@ -273,12 +282,13 @@ if len(ilist)>0:
 
 
 
-    
+st.write("""
+Copyright 2023 Joshua Kiers
+""")
 
 
 
-#st.sidebar.button("random",on_click=get_random)
-st.button("random",on_click=get_random)
+
 
 
 
@@ -286,22 +296,23 @@ st.button("random",on_click=get_random)
 
 ## > 2d plots instead of 3d when relevant
 ## >>> is that based on LS.ran or on DP.eff_dim?
+## 
 ## > help mouseovers for info on the controls?
 ## >>> but what would these say?
-## >>> the collapsed labels make these not show. 
-## > generate random button
-## >>> how about the default is to generate random 
-## >>> 
+## >>> the collapsed labels make these not show.
+## >>> maybe make an "about" description paragraph at the bottom. 
+## 
 ## > names of Levi types next to the colors
-## > 
+## 
 
 ## WISH-LIST
 
 ## > mouseover vertices for ``s1s2lambda'' etc ?
 ## >>> how much can you do with mouseover?
 ## >>> some root system vectors appear also? would be super cool
-## > w's text box autofill with corrected input
+## 
 ## > edges of any kind
+## 
 ## > affine types (eventual goal)
 ## > 
     
