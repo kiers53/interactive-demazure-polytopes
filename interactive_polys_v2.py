@@ -125,7 +125,11 @@ control1.write("Lie Type")
 
 #lie_type = st.sidebar.selectbox(label="",
 lie_type = control1.selectbox(label="",
-                      options=['A1','A2','A3','B2','B3','C3','G2',
+                      options=[#'A1','A2',
+                               'A3',
+                               #'B2',
+                               'B3','C3',
+                               #'G2',
                                 'A1 x A2','A1 x B2','A1 x G2','A1 x A1','A1 x A1 x A1'],
                       #index=2,
                       label_visibility="collapsed",
@@ -303,7 +307,9 @@ Copyright 2023 Joshua Kiers
 ## >>> maybe make an "about" description paragraph at the bottom. 
 ## 
 ## > names of Levi types next to the colors
-## 
+##
+## > remove the little grey wires behind the 3d shape when viewed on small device?
+##
 
 ## WISH-LIST
 
