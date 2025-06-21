@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy.random as npr
 import plotly.graph_objects as go
+from datetime import date
 from weyl_groups import *
 from helper import *
 
@@ -289,7 +290,7 @@ if len(ilist)>0:
 
 
 st.write("""
-Copyright 2023 Joshua Kiers
+Copyright """+str(date.today().year)+""" Joshua Kiers
 """)
 
 
